@@ -7,28 +7,30 @@ Write-Output " |    `   (  <_> )   |  \  |   |    |__(  <_> )  \___|    <  |  Y 
 Write-Output "/_______  /\____/|___|  /__|   |_______ \____/ \___  >__|_ \ |__|_|  /\___  >    ______"
 Write-Output "        \/            \/               \/          \/     \/       \/     \/     \/\/\/"
 Write-Output "                                                                                       "
-Write-Output "version 1.1                                                                            "
+Write-Output "version 1.2                                                                            "
 Write-Output "                                                                                       "
 
 <#inputs#>
-$hours = 8 #in hours
-$sleepInterval = 60 #in seconds
+[int]$hours = Read-Host "How many hours do you want to run the script? (in hours)" 
+[int]$lockScreenInterval = Read-Host "What is the lock screen interval? (in minutes)" 
 <#/inputs#>
 
-$numberOfIterations = ($hours*60*60)/$sleepInterval
+$sleepIntervalSec = ([int]$lockScreenInterval * 60) - 60 #refresh will be done 1 minute before the lock screen interval
+$sleepIntervalMin = $sleepIntervalSec / 60
+$numberOfIterations = ([Math]::Round(($hours*60*60)/$sleepInterval, 0))
 $i = 1
 Write-Output "Running $numberOfIterations iterations in $hours hour(s)...                            "
 Write-Output "Log:                                                                                   "
 
 while ($numberOfIterations -gt $i) {
-    Write-Output "  #$i/$numberOfIterations >> Scroll lock sent. Waiting another $sleepInterval seconds!"
+    Write-Output "  #$i/$numberOfIterations >> Scroll lock sent. Waiting $sleepIntervalMin minutes!"
 
     $WShell.SendKeys("{SCROLLLOCK}")
     $WShell.SendKeys("{SCROLLLOCK}")
     
     sleep 1
     $WShell.SendKeys("{SCROLLLOCK}")
-    sleep ($sleepInterval - 1)
+    sleep ([int]$sleepIntervalSec - 1)
 
     $i++
 }
