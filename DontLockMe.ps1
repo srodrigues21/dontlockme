@@ -7,32 +7,28 @@ Write-Output " |    `   (  <_> )   |  \  |   |    |__(  <_> )  \___|    <  |  Y 
 Write-Output "/_______  /\____/|___|  /__|   |_______ \____/ \___  >__|_ \ |__|_|  /\___  >    ______"
 Write-Output "        \/            \/               \/          \/     \/       \/     \/     \/\/\/"
 Write-Output "                                                                                       "
-Write-Output "version 1.2                                                                            "
+Write-Output "version 1.1                                                                            "
 Write-Output "                                                                                       "
 
 <#inputs#>
-[int]$hours = Read-Host "How many hours do you want to run the script? (in hours)" 
-[int]$lockScreenInterval = Read-Host "What is the lock screen interval? (in minutes)" 
+$hours = 8 #in hours
+$sleepInterval = 600 #in seconds
 <#/inputs#>
 
-$sleepIntervalSec = ([int]$lockScreenInterval * 60) - 60 #refresh will be done 1 minute before the lock screen interval
-$sleepIntervalMin = $sleepIntervalSec / 60
-$numberOfIterations = ([Math]::Round(($hours*60*60)/$sleepInterval, 0))
+$numberOfIterations = ($hours*60*60)/$sleepInterval
 $i = 1
-
-Write-Output "                                                                                       "
 Write-Output "Running $numberOfIterations iterations in $hours hour(s)...                            "
 Write-Output "Log:                                                                                   "
 
 while ($numberOfIterations -gt $i) {
-    Write-Output "  #$i/$numberOfIterations >> Scroll lock sent. Waiting $sleepIntervalMin minutes!"
+    Write-Output "  #$i/$numberOfIterations >> Scroll lock sent. Waiting another $sleepInterval seconds!"
 
     $WShell.SendKeys("{SCROLLLOCK}")
     $WShell.SendKeys("{SCROLLLOCK}")
     
     sleep 1
     $WShell.SendKeys("{SCROLLLOCK}")
-    sleep ([int]$sleepIntervalSec - 1)
+    sleep ($sleepInterval - 1)
 
     $i++
 }
