@@ -19,6 +19,8 @@ $sleepIntervalSec = ([int]$lockScreenInterval * 60) - 60 #refresh will be done 1
 $sleepIntervalMin = $sleepIntervalSec / 60
 $numberOfIterations = ([Math]::Round(($hours*60*60)/$sleepInterval, 0))
 $i = 1
+
+Write-Output "                                                                                       "
 Write-Output "Running $numberOfIterations iterations in $hours hour(s)...                            "
 Write-Output "Log:                                                                                   "
 
